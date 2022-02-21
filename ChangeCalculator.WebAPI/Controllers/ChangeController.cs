@@ -18,9 +18,16 @@ namespace ChangeCalculator.WebAPI.Controllers
         [HttpGet("{currencyAmount:decimal}/{purchasePrice:decimal}")]
         public IActionResult Get(decimal currencyAmount, decimal purchasePrice)
         {
-            var result = ChangeCalculator.Process(currencyAmount, purchasePrice);
+            Core.Domain.ChangeCalculatorResult result = ChangeCalculator.Process(currencyAmount, purchasePrice);
 
-            return Ok(result);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest(result);
+            }
         }
     }
 }
