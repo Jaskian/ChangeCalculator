@@ -16,6 +16,7 @@ namespace ChangeCalculator.WebAPI.Controllers
 
         // GET api/<ChangeController>/50/10
         [HttpGet("{currencyAmount:decimal}/{purchasePrice:decimal}")]
+        [ProducesResponseType(typeof(Core.Domain.ChangeCalculatorResult), 200)]
         public IActionResult Get(decimal currencyAmount, decimal purchasePrice)
         {
             Core.Domain.ChangeCalculatorResult result = ChangeCalculator.Process(currencyAmount, purchasePrice);
