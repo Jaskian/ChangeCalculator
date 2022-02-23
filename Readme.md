@@ -6,14 +6,19 @@ returned split down by denomination, largest first.
 
 Example:
 
-Given £20 and a product price of £5.50,the applicaton will output:
+Given ï¿½20 and a product price of ï¿½5.50,the applicaton will output:
 
 Your change is:
-1 x £10
-2 x £2
+1 x ï¿½10
+2 x ï¿½2
 1 x 50p
 
 *I know the brief doesn't suggest it needs to be a WebAPI, but it was implied by the conversion and role!*
 
+## How to run
+There is a VSCode launch.json file providing VSCode debug options and a launchSettings.json that is picked up by VS, so either should work
+Being .NET 6 and running in Kestrel by default, this should run on Windows, Mac or Linux 
+
 ## Project Notes
 - Looks like the .NET 6 webapi comes with swashbuckle/swagger out-the-box, nice!
+- From an architectural point of view, I don't feel good about returning domain objects directly from the API
