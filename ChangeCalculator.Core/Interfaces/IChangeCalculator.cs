@@ -1,9 +1,10 @@
 ﻿using ChangeCalculator.Core.Domain;
+using ChangeCalculator.Core.Domain.Response;
 
 namespace ChangeCalculator.Core.Interfaces
 {
     public interface IChangeCalculator
     {
-        ChangeCalculatorResult Process(decimal currencyAmount, decimal purchasePrice);
+        ChangeCalculatorResponse Process(decimal currencyAmount, decimal purchasePrice);
     }
 }

@@ -1,5 +1,7 @@
 ﻿using ChangeCalculator.Core.Domain;
+using ChangeCalculator.Core.Domain.Response;
 using ChangeCalculator.Core.Interfaces;
+using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -29,10 +31,10 @@ namespace ChangeCalculator.WebAPI.Controllers
         [Theory]
         [InlineData(50, 10, true, StatusCodes.Status200OK)]
         [InlineData(10, 50, false, StatusCodes.Status400BadRequest)]
-        public void ChangeController_Get_ReturnsOk(decimal currencyAmount, decimal purchasePrice, bool successFlag, int statusCode)
+        public void ChangeController_Get_ReturnsCorrectStatusCode(decimal currencyAmount, decimal purchasePrice, bool successFlag, int statusCode)
         {
             // arrange
-            var result = new ChangeCalculatorResult() { Success = successFlag };
+            var result = new ChangeCalculatorResponse(successFlag, null);
             ChangeCalculatorMock.Setup(c => c.Process(currencyAmount, purchasePrice)).Returns(result).Verifiable();
 
             // act
@@ -41,8 +43,10 @@ namespace ChangeCalculator.WebAPI.Controllers
             var statusCodeResult = actionResult as IStatusCodeActionResult;
 
             // assert
-            Assert.NotNull(statusCodeResult);
-            Assert.Equal(statusCode, statusCodeResult.StatusCode);
+
+            statusCodeResult.Should().NotBeNull();
+            statusCodeResult.StatusCode.Should().Be(statusCode);
+
             ChangeCalculatorMock.VerifyAll();
         }
     }
