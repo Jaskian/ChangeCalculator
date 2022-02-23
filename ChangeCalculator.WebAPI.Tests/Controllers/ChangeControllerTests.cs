@@ -39,7 +39,7 @@ namespace ChangeCalculator.WebAPI.Controllers
 
             // act
 
-            var actionResult = ChangeController.Get(currencyAmount, purchasePrice);
+            var actionResult = ChangeController.Get(new ChangeCalculatorRequest() { CurrencyAmount = currencyAmount, PurchasePrice = purchasePrice });
             var statusCodeResult = actionResult as IStatusCodeActionResult;
 
             // assert
