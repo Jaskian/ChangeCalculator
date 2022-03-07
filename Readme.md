@@ -13,8 +13,6 @@ Your change is:
 2 x £2
 1 x 50p
 
-*I know the brief doesn't suggest it needs to be a WebAPI, but it was implied by the conversion and role!*
-
 ## How to run
 - Requires the .NET 6 SDK (installed automatically by VS 2022, otherwise manual @ https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
 - There is a VSCode launch.json file providing VSCode debug options and a launchSettings.json that is picked up by VS, so either should work
