@@ -1,6 +1,7 @@
 ﻿using ChangeCalculator.Core.Domain.Response;
 using ChangeCalculator.Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace ChangeCalculator.WebAPI.Controllers
 {
@@ -16,12 +17,12 @@ namespace ChangeCalculator.WebAPI.Controllers
         }
 
         // GET api/<ChangeController>/50/10
-        [HttpGet("{currencyAmount:decimal}/{purchasePrice:decimal}")]
+        [HttpGet("{CurrencyAmount}/{PurchasePrice}")]
         [ProducesResponseType(typeof(ChangeCalculatorResponse), 200)]
         [ProducesResponseType(typeof(ChangeCalculatorResponse), 400)]
-        public IActionResult Get(decimal currencyAmount, decimal purchasePrice)
+        public IActionResult Get([FromRoute]ChangeCalculatorRequest request)
         {
-            ChangeCalculatorResponse result = ChangeCalculator.Process(currencyAmount, purchasePrice);
+            ChangeCalculatorResponse result = ChangeCalculator.Process(request.CurrencyAmount, request.PurchasePrice);
 
             if (result.Success)
             {

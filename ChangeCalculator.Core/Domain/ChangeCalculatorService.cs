@@ -1,4 +1,5 @@
-﻿using ChangeCalculator.Core.Domain.Response;
+﻿using ChangeCalculator.Core.Domain.Models;
+using ChangeCalculator.Core.Domain.Response;
 using ChangeCalculator.Core.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -27,6 +28,42 @@ namespace ChangeCalculator.Core.Domain
             if (currencyAmount == purchasePrice)
             {
                 return new ChangeCalculatorResponse(true, changeItems);
+            }
+
+            if (currencyAmount < purchasePrice)
+            {
+                return new ChangeCalculatorResponse(false, changeItems, ChangeCalculatorResponse.ErrorTypes.PurchaseExceedsCurrency);
+            }
+
+            if (purchasePrice == 0)
+            {
+                return new ChangeCalculatorResponse(false, changeItems, ChangeCalculatorResponse.ErrorTypes.PurchasePriceNotProvided);
+            }
+
+            if (Decimal.Round(currencyAmount, 2) != currencyAmount
+                || Decimal.Round(purchasePrice, 2) != purchasePrice)
+            {
+                return new ChangeCalculatorResponse(false, changeItems, ChangeCalculatorResponse.ErrorTypes.InvalidCurrencyAmount);
+            }
+
+            decimal changeAmount = currencyAmount - purchasePrice;
+
+            foreach (CurrencyDenomination denomination in _Denominations.CurrencyDenominations)
+            {
+                if (changeAmount == 0) break;
+
+                int denominationQuantity = 0;
+
+                while (changeAmount >= denomination.Value)
+                {
+                    changeAmount -= denomination.Value;
+                    denominationQuantity++;
+                }
+             
+                if (denominationQuantity > 0)
+                {
+                    changeItems.Add(new ChangeItem(denomination, denominationQuantity));
+                }
             }
 
             return new ChangeCalculatorResponse(true, changeItems);
