@@ -36,6 +36,62 @@
                 "${workspaceFolder}/ChangeCalculator.WebAPI/ChangeCalculator.WebAPI.csproj"
             ],
             "problemMatcher": "$msCompile"
+        },
+        {
+            "type": "docker-build",
+            "label": "docker-build: debug",
+            "dependsOn": [
+                "build"
+            ],
+            "dockerBuild": {
+                "tag": "changecalculator:dev",
+                "target": "base",
+                "dockerfile": "${workspaceFolder}/ChangeCalculator.WebAPI/Dockerfile",
+                "context": "${workspaceFolder}",
+                "pull": true
+            },
+            "netCore": {
+                "appProject": "${workspaceFolder}/ChangeCalculator.WebAPI/ChangeCalculator.WebAPI.csproj"
+            }
+        },
+        {
+            "type": "docker-build",
+            "label": "docker-build: release",
+            "dependsOn": [
+                "build"
+            ],
+            "dockerBuild": {
+                "tag": "changecalculator:latest",
+                "dockerfile": "${workspaceFolder}/ChangeCalculator.WebAPI/Dockerfile",
+                "context": "${workspaceFolder}",
+                "pull": true
+            },
+            "netCore": {
+                "appProject": "${workspaceFolder}/ChangeCalculator.WebAPI/ChangeCalculator.WebAPI.csproj"
+            }
+        },
+        {
+            "type": "docker-run",
+            "label": "docker-run: debug",
+            "dependsOn": [
+                "docker-build: debug"
+            ],
+            "dockerRun": {},
+            "netCore": {
+                "appProject": "${workspaceFolder}/ChangeCalculator.WebAPI/ChangeCalculator.WebAPI.csproj",
+                "enableDebugging": true
+            }
+        },
+        {
+            "type": "docker-run",
+            "label": "docker-run: release",
+            "dependsOn": [
+                "docker-build: release"
+            ],
+            "dockerRun": {},
+            "netCore": {
+                "appProject": "${workspaceFolder}/ChangeCalculator.WebAPI/ChangeCalculator.WebAPI.csproj"
+            }
         }
     ]
 }
